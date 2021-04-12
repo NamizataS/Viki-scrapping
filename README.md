@@ -22,3 +22,6 @@ Pour pouvoir lancer Jupyter Notebook dans Docker, il y a juste à taper cet URL 
 ```
 http://localhost:8888/tree?
 ```
+## Contributors
+* [SANGARE Namizata](https://github.com/NamizataS)
+* [STROCK Rebecca](https://github.com/StrockBecca)
