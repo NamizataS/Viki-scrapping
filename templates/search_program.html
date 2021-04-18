@@ -43,7 +43,7 @@
             <a class="nav-link text-uppercase text-expanded" href="{{ url_for('search_program') }}">Trouve un programme!</a>
           </li>
           <li class="nav-item px-lg-4">
-            <a class="nav-link text-uppercase text-expanded" href="{{ url_for('show_dashboard') }}">Dashboards</a>
+            <a class="nav-link text-uppercase text-expanded" href="{{ url_for('show_dashboard') }}">A propos</a>
           </li>
         </ul>
       </div>
@@ -67,6 +67,13 @@
                     <select class="form-select" name="countries" id="countries" aria-label="form select-lg">
                         <option selected>Select country here</option>
                         {% for x in countries %}
+                            <option value="{{ x }}">{{ x }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="options" class="form-label">Choisissez une option</label>
+                    <select class="form-select" name="options" id="options" aria-label="form select-lg">
+                        <option selected>Select country here</option>
+                        {% for x in options %}
                             <option value="{{ x }}">{{ x }}</option>
                         {% endfor %}
                     </select>

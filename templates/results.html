@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
@@ -30,7 +29,6 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
     <div class="container">
-      <a class="navbar-brand text-uppercase text-expanded font-weight-bold d-lg-none" href="#">Start Bootstrap</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -43,7 +41,7 @@
             <a class="nav-link text-uppercase text-expanded" href="{{ url_for('search_program') }}">Trouve un programme!</a>
           </li>
           <li class="nav-item px-lg-4">
-            <a class="nav-link text-uppercase text-expanded" href="{{ url_for('show_dashboard') }}">Dashboards</a>
+            <a class="nav-link text-uppercase text-expanded" href="{{ url_for('show_dashboard') }}">A propos</a>
           </li>
         </ul>
       </div>
@@ -54,17 +52,20 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="row" style="font-family: Raleway;">
-                <h2>Trouver une série ou un film</h2>
+                {% if length == 0 %}
+                    <p style="color: #ffffff">Désolée il n'y a aucun résultat :(</p>
+                {% else %}
                 {% for i in results %}
                     <div class="card" style="width: 18rem;">
                         <img src="{{ i['image'] }}" class="card-img-top" alt="">
                         <div class="card-body">
                             <h5 class="card-title">{{ i['Nom'] }}</h5>
-                            <p class="card-text">Pays: {{ i['Pays'] }}</p>
-                            <p class="card-text">Note: {{ i['Note'] }}</p>
+                            <p class="card-text details">Pays: {{ i['Pays'] }}</p>
+                            <p class="card-text details">Note: {{ i['Note'] }}</p>
                         </div>
                     </div>
                 {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>
@@ -79,7 +80,6 @@
   <!-- Bootstrap core JavaScript -->
   <script src="{{ url_for('static',filename='vendor/jquery/jquery.min.js')}}"></script>
   <script src="{{ url_for('static',filename='vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-
 </body>
 
 </html>

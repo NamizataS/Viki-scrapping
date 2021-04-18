@@ -19,7 +19,7 @@ class Scraper:
 
     def access_website(self):
         self.driver.get(self.url)
-        time.sleep(10)
+        time.sleep(20)
 
     def click_on_by_text(self, text):
         self.driver.find_element_by_link_text(text).click()
@@ -55,7 +55,7 @@ class Scraper:
         for i in range(pages):
             try:
                 self.get_show(results, category)
-                WebDriverWait(self.driver, 20).until(
+                WebDriverWait(self.driver, 30).until(
                     EC.element_to_be_clickable((By.XPATH, "//a[text()='Suivant →']"))).click()
             except:
                 continue
@@ -74,9 +74,11 @@ def scrape_infos():
     chrome.click_on_by_xpath("//span[text()='Tous les types']")
     chrome.click_on_by_xpath("//div[text()='Télévision']")
     series = chrome.get_all_shows(50, 'Série')
-    time.sleep(10)
+    time.sleep(20)
     chrome.click_on_by_xpath("//span[text()='Télévision']")
+    time.sleep(10)
     chrome.click_on_by_xpath("//div[text()='Films']")
+    time.sleep(20)
     movies = chrome.get_all_shows(3, 'Film')
     chrome.quit_driver()
     shows = series + movies

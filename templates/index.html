@@ -46,7 +46,7 @@
             <a class="nav-link text-uppercase text-expanded" href="{{ url_for('search_program') }}">Trouve un programme!</a>
           </li>
           <li class="nav-item px-lg-4">
-            <a class="nav-link text-uppercase text-expanded" href="{{ url_for('show_dashboard') }}">Dashboards</a>
+            <a class="nav-link text-uppercase text-expanded" href="{{ url_for('show_dashboard') }}">A propos</a>
           </li>
         </ul>
       </div>
@@ -64,7 +64,7 @@
           <p class="mb-3">Notre site permet de chercher une série viki qui pourrait nous intéresser ainsi que de voir une analyse des différents programmes viki.
           </p>
           <div class="intro-button mx-auto">
-            <a class="btn btn-primary btn-xl" href="#">Get started!</a>
+            <a class="btn btn-primary btn-xl" href="{{ url_for('search_program') }}">Get started!</a>
           </div>
         </div>
       </div>
