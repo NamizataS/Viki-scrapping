@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Trouver une série ou un film</title>
+  <title>À propos</title>
 
   <!-- Bootstrap core CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
@@ -29,7 +29,6 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
     <div class="container">
-      <a class="navbar-brand text-uppercase text-expanded font-weight-bold d-lg-none" href="#">Start Bootstrap</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -42,20 +41,80 @@
             <a class="nav-link text-uppercase text-expanded" href="{{ url_for('search_program') }}">Trouve un programme!</a>
           </li>
           <li class="nav-item px-lg-4">
-            <a class="nav-link text-uppercase text-expanded" href="{{ url_for('show_dashboard') }}">A propos</a>
+            <a class="nav-link text-uppercase text-expanded" href="{{ url_for('show_dashboard') }}">À propos</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
+
   <section class="page-section">
-      <div class="container">
-        <div class="row justify-content-center">
-            <div class="row" style="font-family: Raleway;">
-                <p>Becca est un clown</p>
-            </div>
+    <div class="container">
+      <div class="product-item">
+        <div class="product-item-title d-flex">
+          <div class="bg-faded p-5 d-flex ml-auto rounded">
+            <h2 class="section-heading mb-0">
+              <span class="section-heading-upper">A propos de Viki</span>
+              <span class="section-heading-lower">Au 19 Avril 2021</span>
+            </h2>
+          </div>
+        </div>
+        <img class="product-item-img mx-auto d-flex rounded img-fluid mb-3 mb-lg-0" src="{{ url_for('static',filename='img/dash_types1.png') }}" alt="">
+        <div class="product-item-description d-flex mr-auto">
+          <div class="bg-faded p-5 rounded">
+              <p class="mb-0">
+                  Rakuten Viki est un site Web américain de streaming vidéo basé à San Mateo, en Californie. La société possède également des bureaux à Singapour, à Tokyo, au Japon et à Séoul, en Corée du Sud.
+                  Le contenu disponible en streaming est composé de 92.7% de séries et 7.3% de films.
+              </p>
+          </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="container">
+      <div class="product-item">
+        <div class="product-item-title d-flex">
+          <div class="bg-faded p-5 d-flex mr-auto rounded">
+            <h2 class="section-heading mb-0">
+              <span class="section-heading-upper">L'origine des programmes</span>
+            </h2>
+          </div>
+        </div>
+        <img class="product-item-img mx-auto d-flex rounded img-fluid mb-3 mb-lg-0" src="{{ url_for('static',filename='img/dash_countries.png') }}" alt="">
+        <div class="product-item-description d-flex ml-auto">
+          <div class="bg-faded p-5 rounded">
+              <p class="mb-0">
+                  Les différents programmes sont principalement des programmes d'Asie de l'Est.
+                  Sur les 535 programmes disponibles, 260 sont sud-coréens (soit 48,6% des programmes), 213 de Chine Continentale, 29 de Taïwan, 28 du Japon et 5 de la Thaïlande.
+              </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="container">
+      <div class="product-item">
+        <div class="product-item-title d-flex">
+          <div class="bg-faded p-5 d-flex ml-auto rounded">
+            <h2 class="section-heading mb-0">
+              <span class="section-heading-upper">La répartition des types de programme en fonction du pays</span>
+            </h2>
+          </div>
+        </div>
+        <img class="product-item-img mx-auto d-flex rounded img-fluid mb-3 mb-lg-0" src="{{ url_for('static',filename='img/dash_countries_type1.png') }}" alt="">
+        <div class="product-item-description d-flex mr-auto">
+          <div class="bg-faded p-5 rounded">
+              <p class="mb-0">
+                  On prend ici l'exemple de la Corée qui détient le plus de programme, mais la répartition est quasiment la même pour chaque pays avec une grande, voire totale, majorité de séries.
+              </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
 <footer class="footer text-faded text-center py-5">

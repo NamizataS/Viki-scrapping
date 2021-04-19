@@ -92,5 +92,6 @@ def show_dashboard():
 
 
 if __name__ == "__main__":
-    to_database()
-    app.run()
+    #to_database()
+    app.run(debug=True)
+
