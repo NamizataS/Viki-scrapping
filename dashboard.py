@@ -51,10 +51,11 @@ def dash_countries_type():
     fig.subplots_adjust(wspace=0)
 
     labels_total = res_total['_id']
-    ratios = res_total['showsNumber'] / 535
+    sum_res = res_total.sum(axis=0, skipna=True)
+    ratios = res_total['showsNumber'] / sum_res['showsNumber']
     explode_total = (0.1, 0, 0.2, 0.2, 0.2)
     angle = -180 * ratios[0]
-    colors_total = ['#f7a889','#feda7e', '#bad6eb', '#a03704', '#be7c89']
+    colors_total = ['#f7a889', '#feda7e', '#bad6eb', '#a03704', '#be7c89']
     ax1.pie(ratios, autopct='%1.1f%%', startangle=angle, labels=labels_total, colors=colors_total,
             explode=explode_total, normalize=False)
 
@@ -95,4 +96,17 @@ def dash_countries_type():
     con.set_color([0, 0, 0])
     ax2.add_artist(con)
     con.set_linewidth(2)
-    plt.savefig('static/img/dash_countries_type1.png')
+    plt.show()
+
+
+def dash_best_tv_shows():
+    cur = database.get_best_tv_shows()
+    df_res = pd.DataFrame(list(cur))
+    explode = [.1, 0]
+    colors = ['#f7a889', '#be7c89']
+    df_res.pivot_table('_id', index='Pays', aggfunc='count').plot(kind='pie', subplots=True, colors=colors,
+                                                                  explode=explode, autopct='%1.1f%%', shadow=True,
+                                                                  figsize=(8, 8), startangle=90)
+    plt.legend(loc='upper right')
+    plt.title('Répartition des 5 meilleures séries')
+    plt.savefig('static/img/dash_best_tv_shows.png')

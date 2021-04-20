@@ -15,13 +15,11 @@ docker run -it --name conteneur_drio -v `pwd`:/home/dev/code/ image_drio
 ````
 
 ### Docker compose
-Pour instancier la base MongoDB ainsi que d'autres outils nécessaires, un fichier docker-compose est disponible. Il suffit de lancer la commande `docker-compose up -d`
+Pour instancier la base MongoDB ainsi que d'autres outils nécessaires, un fichier docker-compose est disponible. Il suffit de lancer la commande `docker-compose up -d` dans le terminal
 
-### Lancer Jupyter Notebook
-Pour pouvoir lancer Jupyter Notebook dans Docker, il y a juste à taper cet URL dans un navigateur:
-```
-http://localhost:8888/tree?
-```
+### Lancer le programme
+Pour pouvoir lancer le programme, il y a juste à executer le script Python: `app.py` et ensuite se rendre à l'adresse indiquée par le terminal
+
 ## Contributors
 * [SANGARE Namizata](https://github.com/NamizataS)
 * [STROCK Rebecca](https://github.com/StrockBecca)

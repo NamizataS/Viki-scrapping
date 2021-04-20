@@ -1,17 +1,23 @@
 import scraping
 import pandas as pd
-import dashboard
 from flask import Flask, render_template, request, redirect, url_for
-from os import path
 from database import Database
 from pymongo import MongoClient
+import dashboard
 
 app = Flask(__name__)
 
 
+def check_database():
+    client = MongoClient()
+    db_names = client.list_database_names()
+    if 'viki' in db_names:
+        return True
+    return False
+
+
 def clean_data(filename):
     df_show = pd.read_csv(filename)
-    print(len(df_show))
     df_show['on_air'] = df_show['Nom'].str.contains("À L'ANTENNE")
     dictionary = {True: "On air", False: "Finished"}
     df_show['on_air'] = df_show['on_air'].map(dictionary)
@@ -22,7 +28,7 @@ def clean_data(filename):
 
 
 def to_database():
-    if path.exists('viki_shows.csv'):
+    if check_database():
         scraping.to_csv(scraping.scrape_infos())
         database = Database()
         database.update(clean_data('viki_shows.csv'))
@@ -81,17 +87,19 @@ def display_results(types, country, option):
     client = MongoClient()
     db_viki = client.viki
     collection_viki = db_viki['shows']
-    cur = collection_viki.find({'$and': [{'Type': types}, {'Pays': country}, {'on_air':option}]}).sort('Note', -1).limit(10)
+    cur = collection_viki.find({'$and': [{'Type': types}, {'Pays': country}, {'on_air': option}]}).sort('Note',
+                                                                                                        -1).limit(10)
     res = list(cur)
     return render_template("results.html", results=res, length=len(res))
 
 
 @app.route("/dashboard")
 def show_dashboard():
-    return render_template("dashboard.html")
+    database = Database()
+    return render_template("dashboard.html", cur=database.get_best_tv_shows())
 
 
 if __name__ == "__main__":
     #to_database()
-    app.run(debug=True)
+    app.run()
 

@@ -11,11 +11,13 @@ class Database:
     def insert(self, df):
         shows = df.fillna("").to_dict(orient='records')
         self.collection_viki.insert_many(shows)
+        print('Insert done')
 
     def update(self, df):
         shows = df.fillna("").to_dict(orient='records')
         for document in shows:
-            result = self.collection_viki.update_one({'Nom': document['Nom']}, {'$set': document}, upsert=True)
+            self.collection_viki.update_one({'Nom': document['Nom']}, {'$set': document}, upsert=True)
+        print('Update done')
 
     def get_types(self):
         cur = self.collection_viki.aggregate([{"$group": {"_id": "$Type", "TypeShows": {"$sum": 1}}}])
@@ -31,10 +33,9 @@ class Database:
             [{"$group": {"_id": "$on_air", "showsNumber": {"$sum": 1}}}, {"$sort": {"showsNumber": -1}}])
         return cur
 
-    def get_best_shows(self):
-        cur_best_series = self.collection_viki.find({'Type': 'Série'}).sort('Note', -1).limit(5)
-        cur_best_movies = self.collection_viki.find({'Type': 'Film'}).sort('Note', -1).limit(5)
-        return cur_best_movies, cur_best_series
+    def get_best_tv_shows(self):
+        cur_best_tv_shows = self.collection_viki.find({'Type': 'Série'}).sort('Note', -1).limit(5)
+        return cur_best_tv_shows
 
     def get_countries_types(self):
         cur = self.collection_viki.aggregate(

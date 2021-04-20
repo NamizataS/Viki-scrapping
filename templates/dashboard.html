@@ -117,6 +117,43 @@
     </div>
   </section>
 
+  <section class="page-section">
+    <div class="container">
+      <div class="product-item">
+        <div class="product-item-title d-flex">
+          <div class="bg-faded p-5 d-flex mr-auto rounded">
+            <h2 class="section-heading mb-0">
+              <span class="section-heading-upper">Les 5 meilleures séries</span>
+            </h2>
+          </div>
+        </div>
+          <img class="product-item-img mx-auto d-flex rounded img-fluid mb-3 mb-lg-0" src="{{ url_for('static',filename='img/dash_best_tv_shows.png') }}" alt="">
+        <div class="product-item-description d-flex ml-auto">
+          <div class="bg-faded p-5 rounded">
+              <p class="mb-0">
+                  Les 5 séries les mieux notés de la plateforme sont soit de la Corée (60%) ou Chine Continentale (40%).
+                  Juste en dessous les noms des 5 séries au cas où vous voudriez les regarder :)
+              </p>
+          </div>
+        </div>
+      <div class="row justify-content-center">
+          <div class="row">
+              {% for x in cur %}
+                <div class="card" style="width: 15rem;">
+                    <img src="{{ x['image'] }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text">{{ x['Nom'] }}</p>
+                        <p class="card-text">{{ x['Pays'] }}</p>
+                        <p class="card-text">{{ x['Note'] }}</p>
+                    </div>
+                </div>
+              {% endfor %}
+          </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
 <footer class="footer text-faded text-center py-5">
     <div class="container">
       <p class="m-0 small">Copyright &copy; Your Website 2020</p>

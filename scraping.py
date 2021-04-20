@@ -30,7 +30,7 @@ class Scraper:
 
     def accept_cookies(self):
         WebDriverWait(self.driver, 30).until(
-            EC.element_to_be_clickable((By.XPATH, "//button[text()='Accept']"))).click()
+            EC.element_to_be_clickable((By.XPATH, "//button[text()='Accept All']"))).click()
         time.sleep(10)
 
     def get_show(self, results, category):
@@ -88,3 +88,4 @@ def scrape_infos():
 def to_csv(shows):
     df_shows = pd.DataFrame(shows)
     df_shows.to_csv('viki_shows.csv', index=False)
+    print('Scraping done')
