@@ -28,6 +28,10 @@ class Scraper:
         WebDriverWait(self.driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, xpath))).click()
 
+    def click_on_by_id(self, id_name):
+        WebDriverWait(self.driver, 30).until(
+            EC.element_to_be_clickable((By.ID, id_name))).click()
+
     def accept_cookies(self):
         WebDriverWait(self.driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, "//button[text()='Accept All']"))).click()
@@ -71,7 +75,7 @@ def scrape_infos():
     chrome.accept_cookies()
     chrome.click_on_by_xpath("//span[text()='Explorer']")
     chrome.click_on_by_xpath("//a[text()='Tous les spectacles']")
-    chrome.click_on_by_xpath("//span[text()='Tous les types']")
+    chrome.click_on_by_id("select2-chosen-2")
     chrome.click_on_by_xpath("//div[text()='Télévision']")
     series = chrome.get_all_shows(50, 'Série')
     time.sleep(20)
