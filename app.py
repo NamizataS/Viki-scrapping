@@ -100,6 +100,6 @@ def show_dashboard():
 
 
 if __name__ == "__main__":
-    to_database()
+    #to_database()
     app.run()
 
