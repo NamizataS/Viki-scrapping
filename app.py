@@ -3,9 +3,49 @@ import pandas as pd
 from flask import Flask, render_template, request, redirect, url_for
 from database import Database
 from pymongo import MongoClient
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
 import dashboard
 
 app = Flask(__name__)
+
+external_stylesheets = [{
+    'href': 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css',
+    'rel': 'stylesheet',
+    'integrity': 'sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6',
+    'crossorigin': 'anonymous'
+}]
+
+external_scripts = [{
+    'src': 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js',
+    'integrity': 'sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf',
+    'crossorigin': 'anonymous'
+}]
+
+dash_app0 = dash.Dash(__name__, external_scripts=external_scripts, external_stylesheets=external_stylesheets,
+                      server=app, routes_pathname_prefix='/dashboard/')
+dash_countries = dashboard.dash_countries()
+dash_types = dashboard.dash_types()
+dash_best_tv_shows = dashboard.dash_best_tv_shows()
+
+dash_app0.layout = html.Section(className='page-section', style={'font-family': 'Raleway'}, children=[
+    html.Div(className='container', children=[
+        html.Div(className='product-item', children=[
+            html.Div(className='product-item-title d-flex', children=[
+                html.Div(className='bg-faded p-5 d-flex ml-auto rounded', children=[
+                    html.H2(className='section-heading mb-0', children=[
+                        html.Span(className='section-heading-upper', children='À propos de Viki'),
+                    ])
+                ])
+            ]),
+            dcc.Graph(
+                id='dash_types',
+                figure=dash_types
+            )
+        ])
+    ])
+])
 
 
 def check_database():
@@ -93,13 +133,6 @@ def display_results(types, country, option):
     return render_template("results.html", results=res, length=len(res))
 
 
-@app.route("/dashboard")
-def show_dashboard():
-    database = Database()
-    return render_template("dashboard.html", cur=database.get_best_tv_shows())
-
-
 if __name__ == "__main__":
-    #to_database()
-    app.run()
-
+    # to_database()
+    app.run(port=5000)

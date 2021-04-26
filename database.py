@@ -25,7 +25,7 @@ class Database:
 
     def get_countries(self):
         cur = self.collection_viki.aggregate(
-            [{"$group": {"_id": "$Pays", "showsNumber": {"$sum": 1}}}, {'$sort': {'showsNumber': -1}}])
+            [{"$group": {"_id": "$Pays", "number_of_shows": {"$sum": 1}}}, {'$sort': {'number_of_shows': -1}}])
         return cur
 
     def get_on_air(self):

@@ -3,6 +3,8 @@ import seaborn as sns
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import plotly.express as px
+import plotly.graph_objects as go
 from matplotlib.patches import ConnectionPatch
 
 database = Database()
@@ -11,28 +13,18 @@ database = Database()
 def dash_countries():
     cur = database.get_countries()
     res = pd.DataFrame(list(cur))
-    plt.figure(figsize=(8, 8))
-    plt.title('Le nombre de programme en fonction des pays')
-    sns.barplot(x='_id', y='showsNumber', data=res, palette='rocket')
-    plt.yticks(np.arange(0, 270, 20))
-    plt.savefig('static/img/dash_countries.png')
+    fig = px.bar(res, x='_id', y='number_of_shows', color='_id', title='Le nombre de programme en fonction des pays')
+    return fig
 
 
 def dash_types():
     cur = database.get_types()
     res = pd.DataFrame(list(cur))
-    explode = (0.05, 0.05)
-    colors = ['#701f57', '#c2c2f0']
-
-    fig1, ax1 = plt.subplots()
     type_shows = res['TypeShows']
     labels = res['_id']
-    ax1.pie(type_shows, explode=explode, labels=labels, pctdistance=0.85, autopct='%1.1f%%', shadow=True, colors=colors,
-            startangle=45)
-    ax1.axis('equal')
-    ax1.set_title('Répartition des différents types de programmes')
-    plt.tight_layout()
-    plt.savefig('static/img/dash_types1.png')
+    colors = ['#701f57', '#c2c2f0']
+    fig = go.Figure(data=[go.Pie(labels=labels, values=type_shows, marker_colors=colors, pull=[0.05, 0.05])])
+    return fig
 
 
 def get_df():
@@ -96,7 +88,7 @@ def dash_countries_type():
     con.set_color([0, 0, 0])
     ax2.add_artist(con)
     con.set_linewidth(2)
-    plt.show()
+    return fig
 
 
 def dash_best_tv_shows():
@@ -104,9 +96,12 @@ def dash_best_tv_shows():
     df_res = pd.DataFrame(list(cur))
     explode = [.1, 0]
     colors = ['#f7a889', '#be7c89']
-    df_res.pivot_table('_id', index='Pays', aggfunc='count').plot(kind='pie', subplots=True, colors=colors,
-                                                                  explode=explode, autopct='%1.1f%%', shadow=True,
-                                                                  figsize=(8, 8), startangle=90)
-    plt.legend(loc='upper right')
-    plt.title('Répartition des 5 meilleures séries')
-    plt.savefig('static/img/dash_best_tv_shows.png')
+    df_res['numbers_of_shows'] = 1
+    df_res = df_res.groupby('Pays', as_index=False).sum()
+    #fig = df_res.pivot_table('_id', index='Pays', aggfunc='count').plot(kind='pie', subplots=True, colors=colors,
+                                                                 # explode=explode, autopct='%1.1f%%', shadow=True,
+                                                                  #figsize=(8, 8), startangle=90)
+    labels = df_res['Pays']
+    values = df_res['numbers_of_shows']
+    fig = go.Figure(data=[go.Pie(labels=labels, values=values, pull=[0.05,0.05])])
+    return fig
