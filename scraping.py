@@ -4,6 +4,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import pandas as pd
 import time
+import database
+from pymongo import MongoClient
 
 
 class Scraper:
@@ -93,3 +95,33 @@ def to_csv(shows):
     df_shows = pd.DataFrame(shows)
     df_shows.to_csv('viki_shows.csv', index=False)
     print('Scraping done')
+
+
+def check_database():
+    client = MongoClient()
+    db_names = client.list_database_names()
+    if 'viki' in db_names:
+        return True
+    return False
+
+
+def clean_data(filename):
+    df_show = pd.read_csv(filename)
+    df_show['on_air'] = df_show['Nom'].str.contains("À L'ANTENNE")
+    dictionary = {True: "On air", False: "Finished"}
+    df_show['on_air'] = df_show['on_air'].map(dictionary)
+    df_show['Nom'] = df_show['Nom'].str.replace("À L'ANTENNE", '')
+    df_show.sort_values('Nom', inplace=True)
+    df_show.drop_duplicates(subset="Nom", keep='last', inplace=True)
+    return df_show
+
+
+if __name__ == "__main__":
+    if check_database():
+        to_csv(scrape_infos())
+        database = database.Database()
+        database.update(clean_data('viki_shows.csv'))
+    else:
+        to_csv(scrape_infos())
+        database = database.Database()
+        database.insert(clean_data('viki_shows.csv'))

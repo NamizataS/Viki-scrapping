@@ -42,3 +42,13 @@ class Database:
             [{"$group": {"_id": {"pays": "$Pays", "type": "$Type"}, "showsNumber": {"$sum": 1}}},
              {'$sort': {'showsNumber': -1}}])
         return cur
+
+    def get_repart_by_countries(self, country):
+        country = country + ' '
+        cur = self.collection_viki.find({'Pays': country})
+        res = pd.DataFrame(list(cur))
+        res['numbers_of_shows'] = 1
+        res = res.groupby('Type', as_index=False).sum()
+        labels = res['Type']
+        values = res['numbers_of_shows']
+        return labels, values
