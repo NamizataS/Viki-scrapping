@@ -18,6 +18,11 @@ docker run -it --name conteneur_drio -v `pwd`:/home/dev/code/ image_drio
 Pour instancier la base MongoDB ainsi que d'autres outils nécessaires, un fichier docker-compose est disponible. Il suffit de lancer la commande `docker-compose up -d` dans le terminal
 
 ### Lancer le programme
+
+#### Scraper les données
+Lors de la première utilisation il est obligé de lancer le Scraper. Pour cela il suffit d'exécuter le script Python `scraping.py`
+
+#### Lancer l'application
 Pour pouvoir lancer le programme, il y a juste à executer le script Python: `app.py` et ensuite se rendre à l'adresse indiquée par le terminal
 
 ## Contributors

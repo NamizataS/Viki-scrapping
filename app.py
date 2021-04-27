@@ -1,7 +1,3 @@
-from dash_core_components import Input
-from dash_html_components import Output
-
-import plotly.express as px
 import plotly.graph_objects as go
 from flask import Flask, render_template, request, redirect, url_for
 from database import Database
@@ -12,6 +8,10 @@ import dash_html_components as html
 import dashboard
 
 database = Database()
+text_colors = {
+    'background': '#111111',
+    'text': '#7FDBFF'
+}
 app = Flask(__name__)
 
 external_stylesheets = [{
@@ -32,52 +32,62 @@ dash_app0 = dash.Dash(__name__, external_scripts=external_scripts, external_styl
 dash_countries = dashboard.dash_countries()
 dash_types = dashboard.dash_types()
 dash_best_tv_shows = dashboard.dash_best_tv_shows()
+best_tv_shows = database.get_best_tv_shows()
 
-dash_app0.layout = html.Div(
-    children=[html.Section(className='page-section', style={'font-family': 'Raleway'}, children=[
-        html.Div(className='container', children=[
-            html.Div(className='product-item', children=[
-                html.Div(className='product-item-title d-flex', children=[
-                    html.Div(className='bg-faded p-5 d-flex ml-auto rounded', children=[
-                        html.H2(className='section-heading mb-0', children=[
-                            html.Span(className='section-heading-upper', children='À propos de Viki'),
-                        ])
-                    ])
-                ]),
-                dcc.Graph(
-                    id='dash_types',
-                    figure=dash_types
-                )
-            ])
-        ])
-    ]), html.Section(className='page-section', style={'font-family': 'Raleway'}, children=[
-        html.Div(className='container', children=[
-            html.Div(className='product-item', children=[
-                html.Div(className='product-item-title d-flex', children=[
-                    html.Div(className='bg-faded p-5 d-flex ml-auto rounded', children=[
-                        html.H2(className='section-heading mb-0', children=[
-                            html.Span(className='section-heading-upper', children='À propos de Viki'),
-                        ])
-                    ])
-                ]),
-                html.Label('Countries'),
-                dcc.Dropdown(id='countries-dropdown', options=[
-                    {'label': 'All', 'value': 'All'},
-                    {'label': 'Corée du Sud', 'value': 'Corée'},
-                    {'label': 'Chine Continentale', 'value': 'Chine Continentale'},
-                    {'label': 'Taïwan', 'value': 'Taïwan'},
-                    {'label': 'Japon', 'value': 'Japon'},
-                    {'label': 'La Thaïlande', 'value': 'La Thaïlande'}
-                ],
-                             value='All'),
-                dcc.Graph(
-                    id='dash_countries',
-                    figure=dash_countries
-                )
-            ])
-        ])
-    ])
-              ])
+output = []
+for i in best_tv_shows:
+    output.append(html.Div(className='card', style={'width': '15rem'},
+                           children=[html.Img(src=i['image'], className='card-img-top'), html.Div(className='card-body', children=[
+                               html.P(className='card-text',children=i['Nom']),html.P(className='card-text',children=i['Pays']),
+                               html.P(className='card-text', children=i['Note'])
+                           ])]))
+
+dash_app0.layout = html.Div(style={'font-family': 'Raleway'},
+                            children=[html.Section(className='page-section', children=[
+                                html.Div(className='container', children=[
+                                    html.Div(className='product-item', children=[
+                                        dcc.Graph(
+                                            id='dash_types',
+                                            figure=dash_types
+                                        )
+                                    ])
+                                ])
+                            ]), html.Section(className='page-section', children=[
+                                html.Div(className='container', children=[
+                                    html.Div(className='product-item', children=[
+                                        html.Label('Countries'),
+                                        dcc.Dropdown(id='countries-dropdown',
+                                                     options=[
+                                                         {'label': 'All', 'value': 'All'},
+                                                         {'label': 'Corée du Sud', 'value': 'Corée'},
+                                                         {'label': 'Chine Continentale', 'value': 'Chine Continentale'},
+                                                         {'label': 'Taïwan', 'value': 'Taïwan'},
+                                                         {'label': 'Japon', 'value': 'Japon'},
+                                                         {'label': 'La Thaïlande', 'value': 'La Thaïlande'}
+                                                     ],
+                                                     value='All'),
+                                        dcc.Graph(
+                                            id='dash_countries',
+                                            figure=dash_countries
+                                        )
+                                    ])
+                                ])
+                            ]),
+                                      html.Section(className='page-section',
+                                                   children=[
+                                                       html.Div(className='container', children=[
+                                                           html.Div(className='product-item', children=[
+                                                               dcc.Graph(
+                                                                   id='dash_best_tv_shows',
+                                                                   figure=dash_best_tv_shows
+                                                               )
+                                                           ]),
+                                                           html.Div(className='row justify-content-center', children=[
+                                                               html.Div(className='row', children=output)
+                                                           ])
+                                                       ])
+                                                   ])
+                                      ])
 
 
 @dash_app0.callback(
@@ -89,7 +99,13 @@ def update_figure(input_value):
         return dash_countries
     else:
         labels, values = database.get_repart_by_countries(input_value)
-    return go.Figure(data=go.Pie(labels=labels, values=values, hole=.3))
+    colors = ['#f7a889', '#be7c89']
+    fig = go.Figure(data=go.Pie(labels=labels, values=values, marker_colors=colors, hole=.3))
+    fig.update_layout(title_text="Répartition des types de programmes", plot_bgcolor=text_colors['background'],
+                      paper_bgcolor=text_colors['background'],
+                      font_color=text_colors['text'])
+    return fig
+
 
 def check_database():
     client = MongoClient()
@@ -107,7 +123,6 @@ def start_program():
 
 
 def get_series():
-    database = Database()
     types = []
     cur = database.get_types()
     for elt in cur:
@@ -116,7 +131,6 @@ def get_series():
 
 
 def get_countries_names():
-    database = Database()
     countries = []
     cur = database.get_countries()
     for elt in cur:
@@ -125,7 +139,6 @@ def get_countries_names():
 
 
 def get_options():
-    database = Database()
     options = []
     cur = database.get_on_air()
     for elt in cur:
