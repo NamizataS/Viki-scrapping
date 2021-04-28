@@ -5,6 +5,9 @@ Ce projet a pour but de scrapper le site web "www.viki.com", d'envoyer les infor
 ## Docker
 Afin de pouvoir utiliser au mieux notre projet il faut installer Docker.
 
+### Installation des librairies
+Il faut tout d'abord exécuter la commande `pip install -r requirements.txt`qui liste toutes les librairies nécessaires à la bonne exécution de ce projet. 
+
 ### Création de l'image
 Il faut tout d'abord utiliser la commande `docker build -t image_drio  .` pour crée l'image utilisée dans le projet.
 
