@@ -79,7 +79,7 @@ def scrape_infos():
     chrome.click_on_by_xpath("//a[text()='Tous les spectacles']")
     chrome.click_on_by_id("select2-chosen-2")
     chrome.click_on_by_xpath("//div[text()='Télévision']")
-    series = chrome.get_all_shows(50, 'Série')
+    series = chrome.get_all_shows(5, 'Série')
     time.sleep(20)
     chrome.click_on_by_xpath("//span[text()='Télévision']")
     time.sleep(10)
